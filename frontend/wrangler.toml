@@ -10,4 +10,3 @@ binding = "ASSETS"
 [vars]
 NEXT_PUBLIC_AUTH_MODE = "local"
 NEXT_PUBLIC_API_BASE_URL = "https://mc.ai-smith.net"
-NEXT_PUBLIC_API_URL = "https://mc.ai-smith.net"
