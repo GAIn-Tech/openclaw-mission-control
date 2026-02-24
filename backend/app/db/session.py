@@ -24,18 +24,19 @@ _MODEL_REGISTRY = _models
 
 
 def _normalize_database_url(database_url: str) -> str:
-    if "://" not in database_url:
-        return database_url
-    scheme, rest = database_url.split("://", 1)
-    if scheme == "postgresql":
-        return f"postgresql+psycopg://{rest}"
+    if database_url.startswith("postgresql://"):
+        return database_url.replace("postgresql://", "postgresql+psycopg://", 1)
+    if database_url.startswith("sqlite:///") and not database_url.startswith("sqlite+aiosqlite:///"):
+        return database_url.replace("sqlite:///", "sqlite+aiosqlite:///", 1)
     return database_url
 
 
-async_engine: AsyncEngine = create_async_engine(
-    _normalize_database_url(settings.database_url),
-    pool_pre_ping=True,
-)
+normalized = _normalize_database_url(settings.database_url)
+engine_kwargs: dict[str, object] = {"pool_pre_ping": True}
+if normalized.startswith("sqlite+aiosqlite:///"):
+    engine_kwargs.update(connect_args={"timeout": 30})
+async_engine: AsyncEngine = create_async_engine(normalized, **engine_kwargs)
+
 async_session_maker = async_sessionmaker(
     async_engine,
     class_=AsyncSession,
