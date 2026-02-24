@@ -18,6 +18,7 @@ export function isClerkEnabled(): boolean {
 
 type AuthChildrenProps = {
   children?: ReactNode;
+  [key: string]: unknown;
 };
 
 export function SignedIn(props: AuthChildrenProps) {
