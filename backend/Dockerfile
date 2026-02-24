@@ -2,6 +2,8 @@
 
 FROM python:3.12-slim AS base
 
+ARG TIGRISFS_VERSION=1.2.1
+
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
@@ -9,7 +11,10 @@ WORKDIR /app
 
 # System deps (keep minimal)
 RUN apt-get update \
-  && apt-get install -y --no-install-recommends curl ca-certificates \
+  && apt-get install -y --no-install-recommends curl ca-certificates fuse libfuse2 util-linux \
+  && ARCH="$(dpkg --print-architecture)" \
+  && curl -fsSL "https://github.com/tigrisdata/tigrisfs/releases/download/v${TIGRISFS_VERSION}/tigrisfs_${TIGRISFS_VERSION}_linux_${ARCH}.tar.gz" \
+    | tar -xz -C /usr/local/bin/ \
   && rm -rf /var/lib/apt/lists/*
 
 # Install uv (https://github.com/astral-sh/uv)
@@ -41,9 +46,11 @@ COPY backend/app ./app
 # Copy provisioning templates.
 # In-repo these live at `backend/templates/`; runtime path is `/app/templates`.
 COPY backend/templates ./templates
+COPY backend/start-mc.sh ./start-mc.sh
+RUN chmod +x ./start-mc.sh
 
 # Default API port
 EXPOSE 8000
 
 # Run the API
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["./start-mc.sh"]
