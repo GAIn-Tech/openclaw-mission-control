@@ -2,8 +2,6 @@
 
 import { useEffect, type ReactNode } from "react";
 
-import { ClerkProvider } from "@/auth/clerk";
-import { isLikelyValidClerkPublishableKey } from "@/auth/clerkKey";
 import {
   clearLocalAuthToken,
   getLocalAuthToken,
@@ -27,20 +25,5 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return <>{children}</>;
   }
 
-  const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
-  const afterSignOutUrl =
-    process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_OUT_URL ?? "/";
-
-  if (!isLikelyValidClerkPublishableKey(publishableKey)) {
-    return <>{children}</>;
-  }
-
-  return (
-    <ClerkProvider
-      publishableKey={publishableKey}
-      afterSignOutUrl={afterSignOutUrl}
-    >
-      {children}
-    </ClerkProvider>
-  );
+  return <>{children}</>;
 }

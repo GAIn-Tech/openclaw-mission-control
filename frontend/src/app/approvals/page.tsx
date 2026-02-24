@@ -4,7 +4,7 @@ export const dynamic = "force-dynamic";
 
 import { useCallback, useMemo } from "react";
 
-import { SignedIn, SignedOut, SignInButton, useAuth } from "@/auth/clerk";
+import { SignedIn, SignedOut, SignInButton, useAuth } from "@/auth/session";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import type { ApiError } from "@/api/mutator";

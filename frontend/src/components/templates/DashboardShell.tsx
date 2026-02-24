@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import type { ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-import { SignedIn, useAuth } from "@/auth/clerk";
+import { SignedIn, useAuth } from "@/auth/session";
 
 import { ApiError } from "@/api/mutator";
 import {

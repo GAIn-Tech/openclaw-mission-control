@@ -3,7 +3,7 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 
-import { SignedIn, SignedOut, useAuth } from "@/auth/clerk";
+import { SignedIn, SignedOut, useAuth } from "@/auth/session";
 import { Activity as ActivityIcon } from "lucide-react";
 
 import { ApiError } from "@/api/mutator";

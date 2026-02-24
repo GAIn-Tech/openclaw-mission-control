@@ -6,8 +6,8 @@ import {
   SignInButton,
   SignedIn,
   SignedOut,
-  isClerkEnabled,
-} from "@/auth/clerk";
+  isExternalAuthEnabled,
+} from "@/auth/session";
 
 const ArrowIcon = () => (
   <svg
@@ -28,7 +28,7 @@ const ArrowIcon = () => (
 );
 
 export function LandingHero() {
-  const clerkEnabled = isClerkEnabled();
+  const externalAuthEnabled = isExternalAuthEnabled();
 
   return (
     <>
@@ -48,7 +48,7 @@ export function LandingHero() {
 
           <div className="hero-actions">
             <SignedOut>
-              {clerkEnabled ? (
+              {externalAuthEnabled ? (
                 <>
                   <SignInButton
                     mode="modal"
@@ -230,7 +230,7 @@ export function LandingHero() {
           </p>
           <div className="cta-actions">
             <SignedOut>
-              {clerkEnabled ? (
+              {externalAuthEnabled ? (
                 <>
                   <SignInButton
                     mode="modal"

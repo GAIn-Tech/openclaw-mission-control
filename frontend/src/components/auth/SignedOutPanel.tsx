@@ -1,4 +1,4 @@
-import { SignInButton } from "@/auth/clerk";
+import { SignInButton } from "@/auth/session";
 
 import { Button } from "@/components/ui/button";
 

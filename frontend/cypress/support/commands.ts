@@ -6,6 +6,11 @@ type ClerkOtpLoginOptions = {
   otp: string;
 };
 
+type ClerkSignInOptions = {
+  strategy?: string;
+  identifier?: string;
+};
+
 const APP_LOAD_TIMEOUT_MS = 30_000;
 
 function getEnv(name: string, fallback?: string): string {
@@ -50,6 +55,14 @@ Cypress.Commands.add("waitForAppLoaded", () => {
   cy.get("[data-cy='global-loader']", {
     timeout: APP_LOAD_TIMEOUT_MS,
   }).should("have.attr", "aria-hidden", "true");
+});
+
+Cypress.Commands.add("clerkLoaded", () => {
+  return cy.wrap(undefined, { log: false });
+});
+
+Cypress.Commands.add("clerkSignIn", (_options: ClerkSignInOptions) => {
+  return cy.wrap(undefined, { log: false });
 });
 
 Cypress.Commands.add("loginWithClerkOtp", () => {
@@ -210,6 +223,10 @@ declare global {
        * Waits for route-level and global app loaders to disappear.
        */
       waitForAppLoaded(): Chainable<void>;
+
+      clerkLoaded(): Chainable<void>;
+
+      clerkSignIn(options?: ClerkSignInOptions): Chainable<void>;
 
       /**
        * Logs in via the real Clerk SignIn page using deterministic OTP credentials.

@@ -33,33 +33,9 @@ vi.mock("next/link", () => {
   };
 });
 
-vi.mock("@clerk/nextjs", () => {
-  return {
-    ClerkProvider: ({ children }: { children: React.ReactNode }) => (
-      <>{children}</>
-    ),
-    SignedIn: () => {
-      throw new Error(
-        "@clerk/nextjs SignedIn rendered (unexpected in secretless mode)",
-      );
-    },
-    SignedOut: () => {
-      throw new Error("@clerk/nextjs SignedOut rendered without ClerkProvider");
-    },
-    SignInButton: ({ children }: { children: React.ReactNode }) => (
-      <>{children}</>
-    ),
-    SignOutButton: ({ children }: { children: React.ReactNode }) => (
-      <>{children}</>
-    ),
-    useAuth: () => ({ isLoaded: true, isSignedIn: false }),
-    useUser: () => ({ isLoaded: true, isSignedIn: false, user: null }),
-  };
-});
-
 describe("/approvals auth boundary", () => {
-  it("renders without ClerkProvider runtime errors when publishable key is a placeholder", () => {
-    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY = "placeholder";
+  it("renders the signed-out state in local auth mode", () => {
+    process.env.NEXT_PUBLIC_AUTH_MODE = "local";
 
     render(
       <AuthProvider>

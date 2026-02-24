@@ -1,6 +1,6 @@
 import type { ReactNode, Ref } from "react";
 
-import { SignedIn, SignedOut } from "@/auth/clerk";
+import { SignedIn, SignedOut } from "@/auth/session";
 
 import { AdminOnlyNotice } from "@/components/auth/AdminOnlyNotice";
 import { SignedOutPanel } from "@/components/auth/SignedOutPanel";

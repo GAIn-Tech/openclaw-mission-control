@@ -7,13 +7,13 @@ import {
   SignInButton,
   SignedIn,
   SignedOut,
-  isClerkEnabled,
-} from "@/auth/clerk";
+  isExternalAuthEnabled,
+} from "@/auth/session";
 
 import { UserMenu } from "@/components/organisms/UserMenu";
 
 export function LandingShell({ children }: { children: ReactNode }) {
-  const clerkEnabled = isClerkEnabled();
+  const externalAuthEnabled = isExternalAuthEnabled();
 
   return (
     <div className="landing-enterprise">
@@ -38,7 +38,7 @@ export function LandingShell({ children }: { children: ReactNode }) {
 
           <div className="nav-cta">
             <SignedOut>
-              {clerkEnabled ? (
+              {externalAuthEnabled ? (
                 <>
                   <SignInButton
                     mode="modal"
@@ -117,7 +117,7 @@ export function LandingShell({ children }: { children: ReactNode }) {
             <h4>Access</h4>
             <div className="footer-links">
               <SignedOut>
-                {clerkEnabled ? (
+                {externalAuthEnabled ? (
                   <>
                     <SignInButton
                       mode="modal"

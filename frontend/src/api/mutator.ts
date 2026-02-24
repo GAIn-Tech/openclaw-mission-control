@@ -1,13 +1,5 @@
 import { getLocalAuthToken, isLocalAuthMode } from "@/auth/localAuth";
 
-type ClerkSession = {
-  getToken: () => Promise<string>;
-};
-
-type ClerkGlobal = {
-  session?: ClerkSession | null;
-};
-
 export class ApiError<TData = unknown> extends Error {
   status: number;
   data: TData | null;
@@ -19,21 +11,6 @@ export class ApiError<TData = unknown> extends Error {
     this.data = data;
   }
 }
-
-const resolveClerkToken = async (): Promise<string | null> => {
-  if (typeof window === "undefined") {
-    return null;
-  }
-  const clerk = (window as unknown as { Clerk?: ClerkGlobal }).Clerk;
-  if (!clerk?.session) {
-    return null;
-  }
-  try {
-    return await clerk.session.getToken();
-  } catch {
-    return null;
-  }
-};
 
 export const customFetch = async <T>(
   url: string,
@@ -56,13 +33,6 @@ export const customFetch = async <T>(
       headers.set("Authorization", `Bearer ${token}`);
     }
   }
-  if (!headers.has("Authorization")) {
-    const token = await resolveClerkToken();
-    if (token) {
-      headers.set("Authorization", `Bearer ${token}`);
-    }
-  }
-
   const response = await fetch(`${baseUrl}${url}`, {
     ...options,
     headers,
