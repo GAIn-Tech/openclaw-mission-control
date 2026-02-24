@@ -1,8 +1,8 @@
 "use client";
 
-import { ClerkProvider } from "@clerk/nextjs";
 import { useEffect, type ReactNode } from "react";
 
+import { ClerkProvider } from "@/auth/clerk";
 import { isLikelyValidClerkPublishableKey } from "@/auth/clerkKey";
 import {
   clearLocalAuthToken,
