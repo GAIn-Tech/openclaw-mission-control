@@ -35,10 +35,10 @@ class Settings(BaseSettings):
     )
 
     environment: str = "dev"
-    database_url: str = "postgresql+psycopg://postgres:postgres@localhost:5432/openclaw_agency"
+    database_url: str = "sqlite+aiosqlite:////data/mission-control/mission_control.db"
 
     # Auth mode: "clerk" for Clerk JWT auth, "local" for shared bearer token auth.
-    auth_mode: AuthMode
+    auth_mode: AuthMode = AuthMode.LOCAL
     local_auth_token: str = ""
 
     # Clerk auth (auth only; roles stored in DB)
