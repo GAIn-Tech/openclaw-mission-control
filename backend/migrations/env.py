@@ -28,11 +28,10 @@ target_metadata = SQLModel.metadata
 
 
 def _normalize_database_url(database_url: str) -> str:
-    if "://" not in database_url:
-        return database_url
-    scheme, rest = database_url.split("://", 1)
-    if scheme == "postgresql":
-        return f"postgresql+psycopg://{rest}"
+    if database_url.startswith("postgresql://"):
+        return database_url.replace("postgresql://", "postgresql+psycopg://", 1)
+    if database_url.startswith("sqlite:///") and not database_url.startswith("sqlite+aiosqlite:///"):
+        return database_url.replace("sqlite:///", "sqlite+aiosqlite:///", 1)
     return database_url
 
 
@@ -46,11 +45,14 @@ config.set_main_option("sqlalchemy.url", get_url())
 
 def run_migrations_offline() -> None:
     """Run migrations in offline mode without DB engine connectivity."""
+    url = get_url()
+    is_sqlite = url.startswith("sqlite")
     context.configure(
-        url=get_url(),
+        url=url,
         target_metadata=target_metadata,
         literal_binds=True,
         compare_type=True,
+        render_as_batch=is_sqlite,
     )
 
     with context.begin_transaction():
@@ -59,8 +61,10 @@ def run_migrations_offline() -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in online mode using a live DB connection."""
+    url = get_url()
+    is_sqlite = url.startswith("sqlite")
     configuration = config.get_section(config.config_ini_section) or {}
-    configuration["sqlalchemy.url"] = get_url()
+    configuration["sqlalchemy.url"] = url
 
     connectable = engine_from_config(
         configuration,
@@ -73,6 +77,7 @@ def run_migrations_online() -> None:
             connection=connection,
             target_metadata=target_metadata,
             compare_type=True,
+            render_as_batch=is_sqlite,
         )
 
         with context.begin_transaction():
