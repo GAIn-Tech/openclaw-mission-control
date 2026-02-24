@@ -29,11 +29,19 @@ def upgrade() -> None:
     # Task comments are stored as ActivityEvent rows with event_type='task.comment'.
     # Listing comments uses task_id + created_at ordering, so a partial composite index
     # avoids scanning other activity rows.
+    bind = op.get_bind()
+    dialect_name = bind.dialect.name if bind is not None else ""
+    where_clause = sa.text("event_type = 'task.comment'")
+    where_kwargs = (
+        {"sqlite_where": where_clause}
+        if dialect_name == "sqlite"
+        else {"postgresql_where": where_clause}
+    )
     op.create_index(
         "ix_activity_events_task_comment_task_id_created_at",
         "activity_events",
         ["task_id", "created_at"],
-        postgresql_where=sa.text("event_type = 'task.comment'"),
+        **where_kwargs,
     )
 
 
