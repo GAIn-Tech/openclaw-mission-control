@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { useAuth, useUser } from "@/auth/session";
+import { useAuth } from "@/auth/session";
 import { useQueryClient } from "@tanstack/react-query";
 import { Globe, Mail, RotateCcw, Save, Trash2, User } from "lucide-react";
 
@@ -28,7 +28,6 @@ export default function SettingsPage() {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { isSignedIn } = useAuth();
-  const { user } = useUser();
 
   const [name, setName] = useState("");
   const [timezone, setTimezone] = useState<string | null>(null);
@@ -52,10 +51,8 @@ export default function SettingsPage() {
   const meQueryKey = getGetMeApiV1UsersMeGetQueryKey();
 
   const profile = meQuery.data?.status === 200 ? meQuery.data.data : null;
-  const userFallbackName =
-    user?.fullName ?? user?.firstName ?? user?.username ?? "";
-  const displayEmail =
-    profile?.email ?? user?.primaryEmailAddress?.emailAddress ?? "";
+  const userFallbackName = "";
+  const displayEmail = profile?.email ?? "";
   const resolvedName = nameEdited
     ? name
     : (profile?.name ?? profile?.preferred_name ?? userFallbackName);

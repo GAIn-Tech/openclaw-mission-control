@@ -7,6 +7,17 @@ type AuthChildrenProps = {
   [key: string]: unknown;
 };
 
+type SessionUser = {
+  id: string;
+  fullName?: string | null;
+  firstName?: string | null;
+  username?: string | null;
+  imageUrl?: string | null;
+  primaryEmailAddress?: {
+    emailAddress?: string | null;
+  } | null;
+};
+
 export function isExternalAuthEnabled(): boolean {
   return false;
 }
@@ -28,7 +39,16 @@ export function SignOutButton(props: AuthChildrenProps) {
 }
 
 export function useUser() {
-  return { isLoaded: true, user: null } as const;
+  const user: SessionUser = {
+    id: "local-user",
+    fullName: null,
+    firstName: null,
+    username: null,
+    imageUrl: null,
+    primaryEmailAddress: null,
+  };
+
+  return { isLoaded: true, user };
 }
 
 export function useAuth() {
