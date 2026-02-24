@@ -58,11 +58,11 @@ Cypress.Commands.add("waitForAppLoaded", () => {
 });
 
 Cypress.Commands.add("clerkLoaded", () => {
-  return cy.wrap(undefined, { log: false });
+  cy.wrap(undefined, { log: false });
 });
 
 Cypress.Commands.add("clerkSignIn", (_options: ClerkSignInOptions) => {
-  return cy.wrap(undefined, { log: false });
+  cy.wrap(undefined, { log: false });
 });
 
 Cypress.Commands.add("loginWithClerkOtp", () => {
