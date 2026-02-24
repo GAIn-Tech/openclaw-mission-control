@@ -77,6 +77,12 @@ export function useAuth() {
   } as const;
 }
 
-export function ClerkProvider({ children }: { children: ReactNode }) {
+type ClerkProviderProps = {
+  children: ReactNode;
+  publishableKey?: string;
+  afterSignOutUrl?: string;
+};
+
+export function ClerkProvider({ children }: ClerkProviderProps) {
   return <>{children}</>;
 }
