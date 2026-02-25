@@ -31,13 +31,12 @@ ARG NEXT_PUBLIC_AUTH_MODE
 ENV NEXT_PUBLIC_API_URL=http://localhost:8000
 ENV NEXT_PUBLIC_AUTH_MODE=${NEXT_PUBLIC_AUTH_MODE}
 
-COPY --from=builder /app/.next ./.next
-# `public/` is optional in Next.js apps; repo may not have it.
-# Avoid failing the build when the directory is absent.
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/next.config.ts ./next.config.ts
+# Copy the standalone server (includes minimal node_modules and server.js)
+COPY --from=builder /app/.next/standalone ./
+# Copy static assets (CSS, JS chunks, fonts, etc.) – these are NOT included
+# in the standalone output and must be copied separately.
+COPY --from=builder /app/.next/static ./.next/static
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+CMD ["node", "server.js"]
