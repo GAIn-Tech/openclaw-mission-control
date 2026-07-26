@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "project": "signal-console-mobile-rebuild",
+  "state": "BLOCKED_REPOSITORY_ACCESS",
+  "canonical_repository": null,
+  "temporary_control_plane": "GAIn-Tech/openclaw-mission-control",
+  "lock_ttl_minutes": 90,
+  "verified_agents": [
+    {
+      "agent_id": "hermes-jack-wsl",
+      "github_login": "jackoatmon",
+      "capability_status": "partial",
+      "authentication": "git-credential-manager",
+      "constraints": [
+        "canonical Signal Console repository not visible",
+        "exposed chat credential is prohibited"
+      ]
+    }
+  ],
+  "pending_capability_announcements": 2,
+  "provisional_lanes": [
+    {
+      "lane": "architecture",
+      "share": "approximately one third",
+      "owner": null
+    },
+    {
+      "lane": "design",
+      "share": "approximately one third",
+      "owner": null
+    },
+    {
+      "lane": "integration",
+      "share": "approximately one third",
+      "owner": null,
+      "final_integrator_required": "Fang"
+    }
+  ],
+  "active_locks": [],
+  "implementation_unlocked": false
+}

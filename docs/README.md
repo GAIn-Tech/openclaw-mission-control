@@ -12,6 +12,7 @@ This folder is the starting point for Mission Control documentation.
 - [Troubleshooting](./troubleshooting/README.md)
 - [Gateway WebSocket protocol](./openclaw_gateway_ws.md)
 - [OpenClaw baseline configuration](./openclaw_baseline_config.md)
+- [Signal Console Stage 0 coordination and lock protocol](./coordination/signal-console-stage0.md)
 
 ## Status
 
